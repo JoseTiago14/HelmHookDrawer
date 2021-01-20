@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace json.parser
+namespace yaml.parser
 {
 
-    public class JsonReader
+    public class YamlReader
     {
 
-        public IEnumerable<Item> Read(string json)
+        public IEnumerable<Item> Read(string yaml)
         {
             return new Item[] {
                     new Item() {Kind = Kind.Service},
@@ -49,13 +48,13 @@ namespace json.parser
     public abstract class Parser<T>
     {
 
-        private readonly JsonReader _reader;
+        private readonly YamlReader _reader;
 
-        public T Parse(string json) => Order(_reader.Read(json));
+        public T Parse(string yaml) => Order(_reader.Read(yaml));
 
         protected abstract T Order(IEnumerable<Item> items);
 
-        protected Parser(JsonReader reader)
+        protected Parser(YamlReader reader)
         {
             _reader = reader;
         }
@@ -66,7 +65,7 @@ namespace json.parser
     public class ListParser : Parser<IEnumerable<Item>>
     {
 
-        public ListParser(JsonReader reader) : base(reader) { }
+        public ListParser(YamlReader reader) : base(reader) { }
 
         protected override IEnumerable<Item> Order(IEnumerable<Item> items) => items; //TODO
 
@@ -76,7 +75,7 @@ namespace json.parser
     public class TreeParser : Parser<IEnumerable<Item>>
     {
 
-        public TreeParser(JsonReader reader) : base(reader) { }
+        public TreeParser(YamlReader reader) : base(reader) { }
 
         protected override IEnumerable<Item> Order(IEnumerable<Item> items) => items.Reverse(); //TODO
 
@@ -91,7 +90,7 @@ namespace json.parser
             this.AddSingleton(typeof(ILogger), sp => sp.GetService<ILoggerFactory>().CreateLogger(typeof(ParsersServiceCollection)))
                 .AddSingleton(typeof(ILogger<>), typeof(Logger<>))
                 .AddSingleton<ILoggerFactory, LoggerFactory>()
-                .AddSingleton<JsonReader>()
+                .AddSingleton<YamlReader>()
                 .AddSingleton<ListParser>()
                 .AddSingleton<TreeParser>();
         }

@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\json.parser\json.parser.csproj" />
+    <ProjectReference Include="..\yaml.parser\yaml.parser.csproj" />
   </ItemGroup>
 
 </Project>
