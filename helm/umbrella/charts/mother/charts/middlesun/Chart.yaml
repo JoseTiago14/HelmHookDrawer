@@ -1,0 +1,6 @@
+apiVersion: v2
+name: middlesun
+appVersion: "0.1.43"
+description: reponsible to install all charts 
+version: 0.1.0
+type: application
