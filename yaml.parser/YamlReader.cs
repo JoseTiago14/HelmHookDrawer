@@ -1,100 +1,67 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using YamlDotNet.Serialization;
 
 namespace yaml.parser
 {
 
     public class YamlReader
     {
-
-        public IEnumerable<Item> Read(string yaml)
+        public IEnumerable<Resource> Read(string yaml)
         {
-            return new Item[] {
-                    new Item() {Kind = Kind.Service},
-                    new Item() {Kind = Kind.Service},
-                    new Item() {Kind = Kind.ExternalService},
-                    new Item() {Kind = Kind.Deployment},
-                    new Item() {Kind = Kind.Ingress},
-                    new Item() {Kind = Kind.Job},
-                    new Item() {Kind = Kind.Deployment},
-            };
-        } // TODO
+            var deserializer = new DeserializerBuilder().Build();
+            var serializer = new SerializerBuilder()
+                .JsonCompatible()
+                .Build();
 
-    }
+            var yamlParts = yaml.Split(new[] { "---\n" }, StringSplitOptions.None).Where(s => !string.IsNullOrWhiteSpace(s));
+            var result = yamlParts.Select(s =>
+            {
+                var r = new StringReader(s);
+                var yamlObject = deserializer.Deserialize(r);
 
+                var jsonRaw = serializer.Serialize(yamlObject ?? string.Empty);
+                return JsonConvert.DeserializeObject<ResourceRaw>(jsonRaw);
+            }).ToList();
 
-    public class Item
-    {
+            return result.Where(r => Enum.TryParse(r.Kind, out KindType _)).Select(r =>
+            {
+                Enum.TryParse(r.Kind, true, out KindType parsedKind);
+                long.TryParse(r.Metadata?.Annotations?.Weight ?? string.Empty, out var weightParsed);
+                var parsedHooks = (r.Metadata?.Annotations?.Hook ?? string.Empty)
+                    .Split(',')
+                    .Select(h => h.Replace("-", ""))
+                    .Where(h => Enum.TryParse(h, true, out HookType _))
+                    .Select(h => (HookType)Enum.Parse(typeof(HookType), h, true))
+                    .ToList();
 
-        public Kind Kind { get; set; }
-
-    }
-
-
-    public enum Kind
-    {
-
-        Service,
-        ExternalService,
-        Deployment,
-        Ingress,
-        Job
-
-    }
-
-
-    public abstract class Parser<T>
-    {
-
-        private readonly YamlReader _reader;
-
-        public T Parse(string yaml) => Order(_reader.Read(yaml));
-
-        protected abstract T Order(IEnumerable<Item> items);
-
-        protected Parser(YamlReader reader)
-        {
-            _reader = reader;
+                return new Resource(parsedKind, r.Metadata?.Name ?? string.Empty, r.Metadata?.Namespace ?? string.Empty, weightParsed,
+                    parsedHooks);
+            }).ToList();
         }
 
-    }
-
-
-    public class ListParser : Parser<IEnumerable<Item>>
-    {
-
-        public ListParser(YamlReader reader) : base(reader) { }
-
-        protected override IEnumerable<Item> Order(IEnumerable<Item> items) => items; //TODO
-
-    }
-
-
-    public class TreeParser : Parser<IEnumerable<Item>>
-    {
-
-        public TreeParser(YamlReader reader) : base(reader) { }
-
-        protected override IEnumerable<Item> Order(IEnumerable<Item> items) => items.Reverse(); //TODO
-
-    }
-
-
-    public class ParsersServiceCollection : ServiceCollection
-    {
-
-        public ParsersServiceCollection()
+        private class ResourceRaw
         {
-            this.AddSingleton(typeof(ILogger), sp => sp.GetService<ILoggerFactory>().CreateLogger(typeof(ParsersServiceCollection)))
-                .AddSingleton(typeof(ILogger<>), typeof(Logger<>))
-                .AddSingleton<ILoggerFactory, LoggerFactory>()
-                .AddSingleton<YamlReader>()
-                .AddSingleton<ListParser>()
-                .AddSingleton<TreeParser>();
+            public string Kind { get; set; }
+            public ResourceMetadata Metadata { get; set; }
         }
 
-    }
+        private class ResourceMetadata
+        {
+            public string Name { get; set; }
+            public string Namespace { get; set; }
+            public MetadataAnnotations Annotations { get; set; }
+        }
 
+        private class MetadataAnnotations
+        {
+            [JsonProperty("helm.sh/hook")]
+            public string Hook { get; set; }
+            [JsonProperty("helm.sh/hook-weight")]
+            public string Weight { get; set; }
+        }
+    }
 }
