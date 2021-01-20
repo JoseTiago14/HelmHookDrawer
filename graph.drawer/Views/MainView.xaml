@@ -3,67 +3,23 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:graph.drawer"
+             xmlns:viewModels="clr-namespace:graph.drawer.ViewModels"
+             xmlns:views="clr-namespace:graph.drawer.Views"
              mc:Ignorable="d"
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Background="Yellow">
+             d:DesignHeight="450" d:DesignWidth="800"
+             d:DataContext="{d:DesignInstance Type=viewModels:MainViewModel, IsDesignTimeCreatable=False}">
+    <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Button>Mode</Button>
 
-        <TreeView>
-            <TreeViewItem Header="pre installs">
-                <TreeViewItem Header="gatekeeper release">
-                    <ListBox>
-                        <ListBoxItem>seeding</ListBoxItem>
-                        <ListBoxItem>job</ListBoxItem>
-                        <ListBoxItem>chron job</ListBoxItem>
-                    </ListBox>
-                </TreeViewItem>
-                <TreeViewItem Header="server release">
-                    <ListBox>
-                        <ListBoxItem>migration</ListBoxItem>
-                    </ListBox>
-                </TreeViewItem>
-            </TreeViewItem>
-            <TreeViewItem Header="installs">
-                <TreeViewItem Header="gatekeeper release">
-                    <ListBox>
-                        <ListBoxItem>pod</ListBoxItem>
-                        <ListBoxItem>job</ListBoxItem>
-                        <ListBoxItem>chron job</ListBoxItem>
-                        <ListBoxItem>pod</ListBoxItem>
-                    </ListBox>
-                </TreeViewItem>
-                <TreeViewItem Header="server release">
-                    <ListBox>
-                        <ListBoxItem>pod</ListBoxItem>
-                    </ListBox>
-                </TreeViewItem>
-            </TreeViewItem>
-            <TreeViewItem Header="post installs">
-                <TreeViewItem Header="gatekeeper release">
-                    <ListBox>
-                        <ListBoxItem>job</ListBoxItem>
-                        <ListBoxItem>job</ListBoxItem>
-                        <ListBoxItem>pod</ListBoxItem>
-                        <ListBoxItem>pod</ListBoxItem>
-                    </ListBox>
-                </TreeViewItem>
-                <TreeViewItem Header="server release">
-                    <ListBox>
-                        <ListBoxItem>job</ListBoxItem>
-                    </ListBox>
-                </TreeViewItem>
-            </TreeViewItem>
-        </TreeView>
+        <views:FileSelectionView Grid.Column="0" Grid.Row="0" DataContext="{Binding FileSelection}"/>
+        <views:PreviewView Grid.Column="0" Grid.Row="1" DataContext="{Binding Preview}"/>
+        <views:VisualizationView Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" DataContext="{Binding Visualization}"/>
     </Grid>
 </UserControl>

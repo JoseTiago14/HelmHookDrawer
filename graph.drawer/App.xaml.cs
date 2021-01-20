@@ -9,11 +9,11 @@ namespace graph.drawer
     public partial class App
     {
 
-
         public App()
         {
             ThisAssembly = typeof(App).Assembly;
-            Host = new CaliburnHost<MainViewModel>(this);
+            Host = new CaliburnHost<MainViewModel>(this,
+                                                   ("Flow", ThisAssembly));
         }
 
         private Assembly ThisAssembly { get; }

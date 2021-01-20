@@ -11,9 +11,11 @@ namespace graph.drawer
 
         public GraphDrawerServiceCollection()
         {
-            this
-                .AddSingleton<ServiceProviderBootstrapper<MainViewModel>>()
-                .AddSingleton<MainViewModel>();
+            this.AddSingleton<ServiceProviderBootstrapper<MainViewModel>>()
+                .AddSingleton<MainViewModel>()
+                .AddSingleton<PreviewViewModel>()
+                .AddSingleton<VisualizationViewModel>()
+                .AddSingleton<FileSelectionViewModel>();
         }
 
     }

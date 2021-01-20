@@ -1,0 +1,21 @@
+﻿<UserControl x:Class="graph.drawer.Views.FileSelectionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:viewModels="clr-namespace:graph.drawer.ViewModels"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800"
+             d:DataContext="{d:DesignInstance Type=viewModels:FileSelectionViewModel, IsDesignTimeCreatable=False}">
+    <Grid Margin="50">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="{Binding FilePlaceholder.Value}" VerticalAlignment="Bottom"
+                   HorizontalAlignment="Center" Margin="0 0 0 10" />
+        <Button Grid.Row="1" Height="40" Width="120" VerticalAlignment="Top" HorizontalAlignment="Center"
+                Content="Browse" Command="{Binding ReplaceFile}" />
+    </Grid>
+</UserControl>
