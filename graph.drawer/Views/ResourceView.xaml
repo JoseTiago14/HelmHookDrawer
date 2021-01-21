@@ -21,7 +21,16 @@
                     BorderBrush="{Binding ChartName,Converter={StaticResource ChartNameToColor}}" BorderThickness="3"
                     CornerRadius="10,10,10,10" />
             <Border Width="180" Height="65" Margin="3" BorderBrush="LightSlateGray" BorderThickness="0.5"
-                    CornerRadius="10,10,10,10">
+                    CornerRadius="10,10,10,10" Background="Transparent">
+                <Border.ToolTip>
+                    <TextBlock>
+                        Chart: <Run Text="{Binding ChartName}" FontWeight="Bold"/><LineBreak/>
+                        Kind: <Run Text="{Binding Kind}" FontWeight="Bold"/><LineBreak/>
+                        Resource: <Run Text="{Binding Name}" FontWeight="Bold"/><LineBreak/>
+                        Weight: <Run Text="{Binding Weight}" FontWeight="Bold"/><LineBreak/>
+                        Namespace: <Run Text="{Binding Namespace}" FontWeight="Bold"/>
+                    </TextBlock>
+                </Border.ToolTip>
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />

@@ -10,7 +10,7 @@
              d:DataContext="{d:DesignInstance Type=viewModels:MainViewModel, IsDesignTimeCreatable=False}">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="2*" MinWidth="160"/>
             <ColumnDefinition Width="3" />
             <ColumnDefinition Width="3*" />
         </Grid.ColumnDefinitions>
