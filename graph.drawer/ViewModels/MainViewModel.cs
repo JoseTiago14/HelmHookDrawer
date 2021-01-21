@@ -1,4 +1,4 @@
-﻿namespace graph.drawer.ViewModels
+﻿namespace graph.drawer.Flow.Streams.ViewModels
 {
 
     public class MainViewModel

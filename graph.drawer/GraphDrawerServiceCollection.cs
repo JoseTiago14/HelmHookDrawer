@@ -1,5 +1,5 @@
 ﻿using Flow.Wpf.Caliburn;
-using graph.drawer.ViewModels;
+using graph.drawer.Flow.Streams.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 

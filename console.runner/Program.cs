@@ -17,13 +17,13 @@ namespace console.runner
             var mode = ChartMode.Install;
 
             new Host().Run(sp => {
-                Console.WriteLine("\n\nTree\n");
-                var tree = sp.GetService<TreeParser>();
+                //Console.WriteLine("\n\nTree\n");
+                //var tree = sp.GetService<TreeParser>();
 
-                var treeItems = tree.Parse(yaml, mode);
+                //var treeItems = tree.Parse(yaml, mode);
 
-                treeItems.ToList()
-                         .ForEach(item => Console.WriteLine(item.Kind));
+                //treeItems.ToList()
+                //         .ForEach(item => Console.WriteLine(item.Kind));
 
                 Console.WriteLine("\n\nList\n");
                 var list = sp.GetService<ListParser>();

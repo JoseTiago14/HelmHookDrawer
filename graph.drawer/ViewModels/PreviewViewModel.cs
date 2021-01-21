@@ -1,13 +1,11 @@
 ﻿using System.IO;
 using System.Reactive.Disposables;
 using System.Windows;
-using System.Windows.Controls;
 using Flow.Reactive;
 using Flow.Reactive.ReactiveProperty;
-using graph.drawer.Flow.Streams;
 using Reactive.Bindings;
 
-namespace graph.drawer.ViewModels
+namespace graph.drawer.Flow.Streams.ViewModels
 {
 
     public class PreviewViewModel

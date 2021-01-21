@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 
 namespace yaml.parser
 {
@@ -51,23 +49,54 @@ namespace yaml.parser
         } 
     }
 
-    public class TreeParser : Parser<IEnumerable<Resource>>
+    public class TreeParser : Parser<Tree>
     {
         public TreeParser(YamlReader reader) : base(reader) { }
 
-        protected override IEnumerable<Resource> Order(IReadOnlyCollection<Resource> items, ChartMode chartMode) => items.Reverse(); //TODO
+        protected override Tree Order(IReadOnlyCollection<Resource> items, ChartMode chartMode)
+        {
+            var tree = new Tree() {
+                    //{Phase.Pre, IEnumerable<Resource>}, //seq
+                    //{Phase.Current, y}, //par
+                    //{Phase.Post, IEnumerable<Resource>},//seq
+            };
+
+            return tree;
+        }
+
     }
 
-    public class ParsersServiceCollection : ServiceCollection
+
+    public class Tree : Dictionary<Phase, IEnumerable<Resource>>
     {
-        public ParsersServiceCollection()
+
+
+        public Tree()
         {
-            this.AddSingleton(typeof(ILogger), sp => sp.GetService<ILoggerFactory>().CreateLogger(typeof(ParsersServiceCollection)))
-                .AddSingleton(typeof(ILogger<>), typeof(Logger<>))
-                .AddSingleton<ILoggerFactory, LoggerFactory>()
-                .AddSingleton<YamlReader>()
-                .AddSingleton<ListParser>()
-                .AddSingleton<TreeParser>();
+            
+        }
+
+
+    }
+
+
+    public class TreeItem
+    {
+
+        public Resource Resource { get; }
+
+        public TreeItem(Resource resource)
+        {
+            Resource = resource;
         }
     }
+
+
+    public enum Phase
+    {
+        Pre,
+        Current,
+        Post
+    }
+
 }
