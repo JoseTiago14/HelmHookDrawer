@@ -5,18 +5,21 @@ namespace yaml.parser
 {
     public class Resource
     {
-        public Resource(KindType kind, string name, string ns, long weight, ICollection<HookType> hooks)
+        public Resource(KindType kind, string name, string ns, long weight, string chartName, ICollection<HookType> hooks)
         {
             Kind = kind;
             Name = name;
             Namespace = ns;
             Weight = weight;
+            ChartName = chartName;
             Hooks = hooks;
         }
+
         public KindType Kind { get; }
         public string Name { get; }
         public string Namespace { get; }
         public long Weight { get; }
+        public string ChartName { get; }
         public ICollection<HookType> Hooks { get; set; }
     }
 

@@ -38,7 +38,9 @@ namespace yaml.parser
                     .Select(h => (HookType)Enum.Parse(typeof(HookType), h, true))
                     .ToList();
 
-                return new Resource(parsedKind, r.Metadata?.Name ?? string.Empty, r.Metadata?.Namespace ?? string.Empty, weightParsed,
+                return new Resource(parsedKind, r.Metadata?.Name ?? string.Empty, 
+                    r.Metadata?.Namespace ?? string.Empty, weightParsed,
+                    r.Metadata?.Labels?.ChartName ?? string.Empty,
                     parsedHooks);
             }).ToList();
         }
@@ -54,6 +56,7 @@ namespace yaml.parser
             public string Name { get; set; }
             public string Namespace { get; set; }
             public MetadataAnnotations Annotations { get; set; }
+            public Labels Labels { get; set; }
         }
 
         private class MetadataAnnotations
@@ -62,6 +65,11 @@ namespace yaml.parser
             public string Hook { get; set; }
             [JsonProperty("helm.sh/hook-weight")]
             public string Weight { get; set; }
+        }
+
+        private class Labels
+        {
+            public string ChartName { get; set; }
         }
     }
 }

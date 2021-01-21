@@ -13,7 +13,7 @@ namespace console.runner
 
         static void Main(string[] args)
         {
-            var yaml = File.ReadAllText(@"C:\Users\pereiraj\Downloads\output.yaml"); //TODO eventually pass as argument(NOTE replace with the json you want to parse)
+            var yaml = File.ReadAllText(@"output.yaml"); //TODO eventually pass as argument(NOTE replace with the json you want to parse)
             var mode = ChartMode.Install;
 
             new Host().Run(sp => {
@@ -31,10 +31,9 @@ namespace console.runner
                 var listItems = list.Parse(yaml, mode);
 
                 listItems.ToList()
-                         .ForEach(item => Console.WriteLine(item.Kind));
+                         .ForEach(item => Console.WriteLine($"Kind: {item.Kind} | ResourceName: {item.Name}" ));
             });
         }
-
     }
 
 }

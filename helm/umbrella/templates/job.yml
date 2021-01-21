@@ -5,6 +5,8 @@ metadata:
   annotations:
     "helm.sh/hook": pre-install,pre-upgrade
     "helm.sh/hook-weight": "10"
+  labels:
+    chartName: {{ .Chart.Name }}
 spec:
   template:
     # This is the pod template

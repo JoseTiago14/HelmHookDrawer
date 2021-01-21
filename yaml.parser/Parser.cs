@@ -43,6 +43,12 @@ namespace yaml.parser
 
             var pre = items.Where(r=>r.IsPreHook()&& pred(r)).OrderBy(r=> (r.Weight,r.Name));
             var current = items.Where(r => r.HasNoHook()); //TODO - Confirm order between different types
+            // Ingress
+            // Servico
+            // Deployment
+            // Secrets
+            // Config
+            // Labels para agrupar visualmente? (ordem!?) Tipo Gatekeeper agrupados etc,,
             var post = items.Where(r => r.IsPostHook() && pred(r)).OrderBy(r => (r.Weight, r.Name));
 
             return pre.Concat(current).Concat(post);
