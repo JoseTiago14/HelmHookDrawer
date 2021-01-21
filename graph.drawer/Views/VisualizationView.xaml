@@ -19,7 +19,8 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="0" Grid.Column="0" Margin="0 10 10 10" Orientation="Horizontal"  HorizontalAlignment="Left">
+        <StackPanel Grid.Row="0" Grid.Column="0" Margin="0 10 10 10" Orientation="Horizontal"
+                    HorizontalAlignment="Left">
             <Label Content="Mode" Foreground="Gray" />
             <ComboBox Height="20" Width="75">
                 <ComboBox.Items>
@@ -31,7 +32,8 @@
         </StackPanel>
 
 
-        <ToggleButton Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" Margin="10">
+        <ToggleButton Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" Margin="10"
+                      IsEnabled="{Binding IsParsed.Value}">
             <ToggleButton.Template>
                 <ControlTemplate>
                     <StackPanel Orientation="Horizontal">
@@ -45,6 +47,19 @@
                 </ControlTemplate>
             </ToggleButton.Template>
         </ToggleButton>
+
+        <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+            <ListBox ItemsSource="{Binding PreInstalls.Value}" MinHeight="100"/>
+            <ListBox ItemsSource="{Binding Installs.Value}" MinHeight="100"/>
+            <ListBox ItemsSource="{Binding PostInstalls.Value}" MinHeight="100"/>
+        </StackPanel>
+
+        <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+              Visibility="{Binding ErrorMessageVisibility.Value}" Background="#F1F0F0">
+            <TextBlock Text="{Binding ErrorMessage.Value}" Foreground="Gray"
+                       VerticalAlignment="Center" HorizontalAlignment="Center" />
+        </Grid>
+
         <!--<StackPanel Grid.Row="0" Grid.Column="1" Margin="10" Background="OrangeRed" Orientation="Horizontal"
                     HorizontalAlignment="Right">
             <TextBlock Margin="5 0">List</TextBlock>
@@ -52,7 +67,7 @@
         </StackPanel>-->
 
         <!--<TextBlock  HorizontalAlignment="Center">Select a file to calculate its installation dependency</TextBlock>-->
-        <TreeView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Stretch"
+        <!--<TreeView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Stretch"
                   VerticalAlignment="Stretch">
             <TreeViewItem Header="pre installs">
                 <TreeViewItem Header="gatekeeper release">
@@ -98,6 +113,6 @@
                     </ListBox>
                 </TreeViewItem>
             </TreeViewItem>
-        </TreeView>
+        </TreeView>-->
     </Grid>
 </UserControl>

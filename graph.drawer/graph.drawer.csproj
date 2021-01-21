@@ -16,8 +16,4 @@
     <ProjectReference Include="..\yaml.parser\yaml.parser.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Flow\Nanos\" />
-  </ItemGroup>
-
 </Project>
