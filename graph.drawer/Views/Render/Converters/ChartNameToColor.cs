@@ -20,25 +20,25 @@ namespace graph.drawer.Views.Render.Converters
         }
 
         private static SolidColorBrush RetrieveMap(string name)
-            => ColorMapps.ContainsKey(name)
-                    ? ColorMapps[name]
+            => ColorMaps.ContainsKey(name)
+                    ? ColorMaps[name]
                     : CreateMap(name);
 
         private static Random Random { get; } = new Random(1987);
 
         private static SolidColorBrush CreateMap(string name)
         {
-            var brush = ColorMapps.Values.Count != Palette.Count
-                    ? Palette.ElementAt(ColorMapps.Values.Count)
+            var brush = ColorMaps.Values.Count != Palette.Count
+                    ? Palette.ElementAt(ColorMaps.Values.Count)
                     : DefaultBrush;
 
-            ColorMapps.Add(name, brush);
-            return ColorMapps[name];
+            ColorMaps.Add(name, brush);
+            return ColorMaps[name];
         }
 
         private static SolidColorBrush DefaultBrush => new SolidColorBrush(Colors.DimGray);
 
-        private static IDictionary<string, SolidColorBrush> ColorMapps { get; } = new Dictionary<string, SolidColorBrush>();
+        private static IDictionary<string, SolidColorBrush> ColorMaps { get; } = new Dictionary<string, SolidColorBrush>();
 
         private static IReadOnlyCollection<SolidColorBrush> Palette => new[] {
                 ColorFromHex("#F47A55"),
