@@ -48,7 +48,7 @@
 
         <ScrollViewer Grid.Row="1" HorizontalAlignment="Stretch"
                       VerticalAlignment="Stretch" VerticalScrollBarVisibility="Auto"
-                      HorizontalScrollBarVisibility="Hidden">
+                      HorizontalScrollBarVisibility="Disabled">
             <StackPanel>
                 <Expander Header="Pre">
                     <ItemsControl ItemsSource="{Binding PreInstalls.Value}">
