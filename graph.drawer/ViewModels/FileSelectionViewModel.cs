@@ -3,9 +3,10 @@ using System.Reactive.Disposables;
 using Flow.Reactive;
 using Flow.Reactive.ReactiveProperty;
 using graph.drawer.Flow.Commands;
+using graph.drawer.Flow.Streams;
 using Reactive.Bindings;
 
-namespace graph.drawer.Flow.Streams.ViewModels
+namespace graph.drawer.ViewModels
 {
 
     public class FileSelectionViewModel

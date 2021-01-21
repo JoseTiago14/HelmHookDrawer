@@ -1,4 +1,4 @@
-﻿namespace graph.drawer.Flow.Streams.ViewModels
+﻿namespace graph.drawer.ViewModels
 {
 
     public class VisualizationViewModel

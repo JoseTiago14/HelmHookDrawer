@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 using Flow.Wpf;
-using graph.drawer.Flow.Streams.ViewModels;
+using graph.drawer.ViewModels;
 using graph.drawer.Views;
 
 namespace graph.drawer
