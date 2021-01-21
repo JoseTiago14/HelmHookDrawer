@@ -29,8 +29,8 @@ namespace yaml.parser
         Service,
         Deployment,
         Job,
-        ExternalService,
-        ConfigMap
+        ConfigMap,
+        Ingress
     }
 
     public enum HookType

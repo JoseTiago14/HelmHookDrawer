@@ -24,8 +24,9 @@ namespace graph.drawer.Views.Render.Converters
                 {KindType.Secret, new SolidColorBrush(Colors.OrangeRed)},
                 {KindType.Service, new SolidColorBrush(Colors.CornflowerBlue)},
                 {KindType.Deployment, new SolidColorBrush(Colors.Goldenrod)},
-                {KindType.ExternalService, new SolidColorBrush(Colors.ForestGreen)},
-                {KindType.Job, new SolidColorBrush(Colors.MediumPurple)},
+                {KindType.Ingress, new SolidColorBrush(Colors.ForestGreen)},
+                {KindType.Job, new SolidColorBrush(Colors.Aqua)},
+                {KindType.ConfigMap, new SolidColorBrush(Colors.MediumPurple)},
         };
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
