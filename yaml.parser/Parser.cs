@@ -4,15 +4,31 @@ using System.Linq;
 
 namespace yaml.parser
 {
-    public abstract class Parser<T>
+    public class Parser
     {
         private readonly YamlReader _reader;
 
-        public T Parse(string yaml, ChartMode mode) => Order(_reader.Read(yaml), mode);
+        public IDictionary<Stage, IEnumerable<Resource>> Parse(string yaml, ChartMode chartMode)
+        {
+            var items = _reader.Read(yaml);
+            Predicate<Resource> pred = chartMode switch
+            {
+                ChartMode.Install => r => r.IsInstallHook(),
+                ChartMode.Upgrade => r => r.IsUpgradeHook(),
+                ChartMode.Delete => r => r.IsDeleteHook(),
+                ChartMode.Rollback => r => r.IsRollbackHook(),
+                _ => throw new ArgumentOutOfRangeException()
+            };
 
-        protected abstract T Order(IReadOnlyCollection<Resource> items, ChartMode chartMode);
+            return new Dictionary<Stage, IEnumerable<Resource>>
+            {
+                {Stage.Pre, items.Where(r => r.IsPreHook() && pred(r)).OrderBy(r => (r.Weight, r.Name))},
+                {Stage.Deploy, items.Where(r => r.HasNoHook())},
+                {Stage.Pos, items.Where(r => r.IsPostHook() && pred(r)).OrderBy(r => (r.Weight, r.Name))}
+            };
+        }
 
-        protected Parser(YamlReader reader)
+        public Parser(YamlReader reader)
         {
             _reader = reader;
         }
@@ -26,83 +42,16 @@ namespace yaml.parser
         Rollback
     }
 
-    public class ListParser : Parser<IEnumerable<Resource>>
-    {
-        public ListParser(YamlReader reader) : base(reader) { }
-
-        protected override IEnumerable<Resource> Order(IReadOnlyCollection<Resource> items, ChartMode chartMode)
-        {
-            Predicate<Resource> pred = chartMode switch
-            {
-                ChartMode.Install => r => r.IsInstallHook(),
-                ChartMode.Upgrade => r => r.IsUpgradeHook(),
-                ChartMode.Delete => r => r.IsDeleteHook(),
-                ChartMode.Rollback => r => r.IsRollbackHook(),
-                _=> throw new ArgumentOutOfRangeException()
-            };
-
-            var pre = items.Where(r=>r.IsPreHook()&& pred(r)).OrderBy(r=> (r.Weight,r.Name));
-            var current = items.Where(r => r.HasNoHook()); //TODO - Confirm order between different types
             // Ingress
             // Servico
             // Deployment
             // Secrets
             // Config
             // Labels para agrupar visualmente? (ordem!?) Tipo Gatekeeper agrupados etc,,
-            var post = items.Where(r => r.IsPostHook() && pred(r)).OrderBy(r => (r.Weight, r.Name));
-
-            return pre.Concat(current).Concat(post);
-        } 
-    }
-
-    public class TreeParser : Parser<Tree>
-    {
-        public TreeParser(YamlReader reader) : base(reader) { }
-
-        protected override Tree Order(IReadOnlyCollection<Resource> items, ChartMode chartMode)
-        {
-            var tree = new Tree() {
-                    //{Phase.Pre, IEnumerable<Resource>}, //seq
-                    //{Phase.Current, y}, //par
-                    //{Phase.Post, IEnumerable<Resource>},//seq
-            };
-
-            return tree;
-        }
-
-    }
-
-
-    public class Tree : Dictionary<Phase, IEnumerable<Resource>>
-    {
-
-
-        public Tree()
-        {
-            
-        }
-
-
-    }
-
-
-    public class TreeItem
-    {
-
-        public Resource Resource { get; }
-
-        public TreeItem(Resource resource)
-        {
-            Resource = resource;
-        }
-    }
-
-
-    public enum Phase
+    public enum Stage
     {
         Pre,
-        Current,
-        Post
+        Deploy,
+        Pos
     }
-
 }

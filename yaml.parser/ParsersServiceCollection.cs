@@ -12,9 +12,7 @@ namespace yaml.parser
                 .AddSingleton(typeof(ILogger<>), typeof(Logger<>))
                 .AddSingleton<ILoggerFactory, LoggerFactory>()
                 .AddSingleton<YamlReader>()
-                .AddSingleton<ListParser>()
-                .AddSingleton<TreeParser>();
+                .AddSingleton<Parser>();
         }
     }
-
 }
