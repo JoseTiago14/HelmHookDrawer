@@ -18,8 +18,9 @@ namespace graph.drawer.ViewModels
         public bool IsFirst { get; set; }
         public bool IsLast { get; set; }
         public bool IsNewLine { get; set; }
+        public bool IsToRenderArrow { get; set; }
 
-        public ResourceViewModel(Resource resource, IList<Resource> allResources, int columns)
+        public ResourceViewModel(Resource resource, IList<Resource> allResources, int columns, bool isSequential)
         {
             Kind = resource.Kind;
             Name = resource.ChartName;
@@ -30,6 +31,7 @@ namespace graph.drawer.ViewModels
             IsLast = resource == allResources.Last();
             IsNewLine = allResources.Where(r => allResources.IndexOf(resource) % columns == 0)
                                     .Any(r => r == resource);
+            IsToRenderArrow = isSequential;
         }
 
     }

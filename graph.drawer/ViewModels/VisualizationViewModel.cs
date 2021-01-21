@@ -38,9 +38,9 @@ namespace graph.drawer.ViewModels
             ErrorMessage = flow.Bind<string, ParsedResult>(result => ErrorMessages[result.State], Disposables);
             ErrorMessageVisibility = ErrorMessage.Select(msg => msg == default ? Visibility.Collapsed : Visibility.Visible).ToReactiveProperty();
 
-            PreInstalls = flow.Bind<IEnumerable<ResourceViewModel>, ParsedResult>(result => result.PreInstalls.Select(r => new ResourceViewModel(r, result.PreInstalls.ToList(), Columns)), Disposables);
-            Installs = flow.Bind<IEnumerable<ResourceViewModel>, ParsedResult>(result => result.Installs.Select(r => new ResourceViewModel(r, result.Installs.ToList(), Columns)), Disposables);
-            PostInstalls = flow.Bind<IEnumerable<ResourceViewModel>, ParsedResult>(result => result.PostInstalls.Select(r => new ResourceViewModel(r, result.PostInstalls.ToList(), Columns)), Disposables);
+            PreInstalls = flow.Bind<IEnumerable<ResourceViewModel>, ParsedResult>(result => result.PreInstalls.Select(r => new ResourceViewModel(r, result.PreInstalls.ToList(), Columns,true)), Disposables);
+            Installs = flow.Bind<IEnumerable<ResourceViewModel>, ParsedResult>(result => result.Installs.Select(r => new ResourceViewModel(r, result.Installs.ToList(), Columns,false)), Disposables);
+            PostInstalls = flow.Bind<IEnumerable<ResourceViewModel>, ParsedResult>(result => result.PostInstalls.Select(r => new ResourceViewModel(r, result.PostInstalls.ToList(), Columns,true)), Disposables);
 
             ChartNames = flow.Bind<IEnumerable<string>, ParsedResult>(result => result.All.Select(r => r.ChartName).Distinct(),Disposables);
         }
