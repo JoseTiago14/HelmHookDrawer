@@ -10,7 +10,7 @@ namespace yaml.parser
 
     public class YamlReader
     {
-        public IEnumerable<Resource> Read(string yaml)
+        public IReadOnlyCollection<Resource> Read(string yaml)
         {
             var deserializer = new DeserializerBuilder().Build();
             var serializer = new SerializerBuilder()
@@ -18,7 +18,7 @@ namespace yaml.parser
                 .Build();
 
             var yamlParts = yaml.Split(new[] { "---\n" }, StringSplitOptions.None).Where(s => !string.IsNullOrWhiteSpace(s));
-            var result = yamlParts.Select(s =>
+            var rawResources = yamlParts.Select(s =>
             {
                 var r = new StringReader(s);
                 var yamlObject = deserializer.Deserialize(r);
@@ -27,7 +27,7 @@ namespace yaml.parser
                 return JsonConvert.DeserializeObject<ResourceRaw>(jsonRaw);
             }).ToList();
 
-            return result.Where(r => Enum.TryParse(r.Kind, out KindType _)).Select(r =>
+            return rawResources.Where(r => Enum.TryParse(r.Kind, out KindType _)).Select(r =>
             {
                 Enum.TryParse(r.Kind, true, out KindType parsedKind);
                 long.TryParse(r.Metadata?.Annotations?.Weight ?? string.Empty, out var weightParsed);

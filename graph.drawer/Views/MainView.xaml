@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:viewModels="clr-namespace:graph.drawer.ViewModels"
              xmlns:views="clr-namespace:graph.drawer.Views"
+             xmlns:cal="http://www.caliburnproject.org"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800"
              d:DataContext="{d:DesignInstance Type=viewModels:MainViewModel, IsDesignTimeCreatable=False}">
@@ -18,8 +19,8 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <views:FileSelectionView Grid.Column="0" Grid.Row="0" DataContext="{Binding FileSelection}"/>
-        <views:PreviewView Grid.Column="0" Grid.Row="1" DataContext="{Binding Preview}"/>
-        <views:VisualizationView Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" DataContext="{Binding Visualization}"/>
+        <ContentControl Grid.Column="0" Grid.Row="0" cal:View.Model="{Binding FileSelection}"/>
+        <ContentControl Grid.Column="0" Grid.Row="1" cal:View.Model="{Binding Preview}"/>
+        <ContentControl Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" cal:View.Model="{Binding Visualization}"/>
     </Grid>
 </UserControl>
