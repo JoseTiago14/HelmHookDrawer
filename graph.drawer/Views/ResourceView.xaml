@@ -11,5 +11,25 @@
     <UserControl.Resources>
         <converters:KindTypeToColor x:Key="KindTypeToColor" />
     </UserControl.Resources>
-    <Grid Height="50" Width="50" Background="{Binding Kind,Converter={StaticResource KindTypeToColor}}" Margin="5" />
+    <Grid Margin="10,0,0,0">
+        <Border Width="110" Height="80" Margin="4" BorderBrush="{Binding Kind,Converter={StaticResource KindTypeToColor}}" BorderThickness="6" CornerRadius="10,10,10,10"/>
+        <Border Width="110" Height="80" Margin="3" BorderBrush="LightSlateGray" BorderThickness="0.5" CornerRadius="10,10,10,10">
+            <Grid >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Image Grid.Row="1" Grid.Column="0"/>
+                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Weight}" HorizontalAlignment="Right" Margin=" 8"/>
+
+                <TextBlock Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center"
+                           Text="{Binding Name}"/>
+            </Grid>
+        </Border>
+    </Grid>
 </UserControl>

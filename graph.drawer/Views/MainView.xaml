@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:views="clr-namespace:graph.drawer.Views"
              xmlns:cal="http://www.caliburnproject.org" 
              xmlns:viewModels="clr-namespace:graph.drawer.ViewModels"
              mc:Ignorable="d"
@@ -11,8 +10,9 @@
              d:DataContext="{d:DesignInstance Type=viewModels:MainViewModel, IsDesignTimeCreatable=False}">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="5" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -21,6 +21,7 @@
 
         <ContentControl Grid.Column="0" Grid.Row="0" cal:View.Model="{Binding FileSelection}"/>
         <ContentControl Grid.Column="0" Grid.Row="1" cal:View.Model="{Binding Preview}"/>
-        <ContentControl Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" cal:View.Model="{Binding Visualization}"/>
+        <GridSplitter  Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Width="5" HorizontalAlignment="Stretch" />
+        <ContentControl Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" cal:View.Model="{Binding Visualization}"/>
     </Grid>
 </UserControl>

@@ -30,6 +30,7 @@ namespace yaml.parser
         Deployment,
         Job,
         ExternalService,
+        ConfigMap
     }
 
     public enum HookType
