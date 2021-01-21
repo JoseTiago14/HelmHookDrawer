@@ -51,7 +51,7 @@ namespace graph.drawer.ViewModels
                                                                             },
                                                                             Disposables);
 
-            ReactiveProperty<IEnumerable<ResourceViewModel>> bind_with_filters(Func<ParsedResult, IEnumerable<Resource>> func)
+            ReactiveProperty<IEnumerable<ResourceViewModel>> bind_with_filters(Func<ParsedResult, IEnumerable<Resource>> func, bool isSequential)
                 => flow.Bind<
                         IEnumerable<ResourceViewModel>,
                         ParsedResult
@@ -68,16 +68,15 @@ namespace graph.drawer.ViewModels
 
                                     return func(result)
                                           .Where(r => charts.Contains(r.ChartName))
-                                          .Select(r => new ResourceViewModel(r, result.PreInstalls.ToList(), Columns));
+                                          .Select(r => new ResourceViewModel(r, func(result).ToList(), Columns, isSequential));
                                 });
                             })
                            .Concat(),
                   Disposables);
-            
 
-            PreInstalls = bind_with_filters(result => result.PreInstalls);
-            Installs = bind_with_filters(result => result.Installs);
-            PostInstalls = bind_with_filters(result => result.PostInstalls);
+            PreInstalls = bind_with_filters(result => result.PreInstalls, true);
+            Installs = bind_with_filters(result => result.Installs, false);
+            PostInstalls = bind_with_filters(result => result.PostInstalls, true);
         }
 
         private CompositeDisposable Disposables { get; } = new CompositeDisposable();
