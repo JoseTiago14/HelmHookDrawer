@@ -14,7 +14,7 @@
         </Grid.RowDefinitions>
 
         <Label Grid.Row="0" Content="Preview" Foreground="Gray" />
-        <Border Margin="15" Background="#69DEDBDB" Grid.Row="1">
+        <Border Margin="0" Background="#69DEDBDB" Grid.Row="1">
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <TextBlock Text="{Binding Preview.Value}" Foreground="Gray"
                            HorizontalAlignment="{Binding PreviewAlignment.Value}"
