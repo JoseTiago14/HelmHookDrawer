@@ -35,8 +35,8 @@ namespace graph.drawer.Flow.Streams
         public void Update(IDictionary<Stage, IEnumerable<Resource>> parsed)
         {
             PreInstalls = parsed[Stage.Pre];
-            Installs = parsed[Stage.Pre];
-            PostInstalls = parsed[Stage.Pre];
+            Installs = parsed[Stage.Deploy];
+            PostInstalls = parsed[Stage.Post];
             State = ParseState.Parsed;
         }
 
