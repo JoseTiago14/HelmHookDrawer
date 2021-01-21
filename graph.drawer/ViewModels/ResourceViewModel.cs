@@ -12,6 +12,7 @@ namespace graph.drawer.ViewModels
         public string Namespace { get; set; }
         public long Weight { get; set; }
         public string Name { get; set; }
+        public string ChartName { get; set; }
         public KindType Kind { get; set; }
 
         //render props
@@ -23,7 +24,8 @@ namespace graph.drawer.ViewModels
         public ResourceViewModel(Resource resource, IList<Resource> allResources, int columns, bool isSequential)
         {
             Kind = resource.Kind;
-            Name = resource.ChartName;
+            Name = resource.Name;
+            ChartName = resource.ChartName;
             Weight = resource.Weight;
             Namespace = resource.Namespace;
             Hooks = resource.Hooks;

@@ -41,15 +41,15 @@ namespace graph.drawer.Views.Render.Converters
         private static IDictionary<string, SolidColorBrush> ColorMaps { get; } = new Dictionary<string, SolidColorBrush>();
 
         private static IReadOnlyCollection<SolidColorBrush> Palette => new[] {
-                ColorFromHex("#F47A55"),
                 ColorFromHex("#F3982C"),
-                ColorFromHex("#F2B602"),
-                ColorFromHex("#79A31F"),
+                ColorFromHex("#F47A55"),
                 ColorFromHex("#008F3C"),
-                ColorFromHex("#05969E"),
+                ColorFromHex("#F2B602"),
+                ColorFromHex("#FF5233"),
                 ColorFromHex("#0A9DFF"),
-                ColorFromHex("#857899"),
-                ColorFromHex("#FF5233")
+                ColorFromHex("#79A31F"),
+                ColorFromHex("#05969E"),
+                ColorFromHex("#857899")
         };
 
         private static readonly Func<string, SolidColorBrush> ColorFromHex = hex => (SolidColorBrush) new BrushConverter().ConvertFrom(hex);

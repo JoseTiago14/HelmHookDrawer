@@ -23,7 +23,7 @@ namespace yaml.parser
 
             return new Dictionary<Stage, IEnumerable<Resource>> {
                     {Stage.Pre, items.Where(r => r.IsPreHook() && pred(r)).OrderBy(r => (r.Weight, r.Name))},
-                    {Stage.Deploy, items.Where(r => r.HasNoHook())},
+                    {Stage.Deploy, items.Where(r => r.HasNoHook()).OrderBy(r => r.ChartName)},
                     {Stage.Post, items.Where(r => r.IsPostHook() && pred(r)).OrderBy(r => (r.Weight, r.Name))}
             };
         }

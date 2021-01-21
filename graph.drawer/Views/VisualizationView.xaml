@@ -11,6 +11,7 @@
              d:DataContext="{d:DesignInstance Type=viewModels:VisualizationViewModel, IsDesignTimeCreatable=False}">
     <UserControl.Resources>
         <converters:ChartNameDefaultBoxText x:Key="ChartNameDefaultBoxText" />
+        <converters:ChartNameToColor x:Key="ChartNameToColor" />
     </UserControl.Resources>
     <Grid Margin="10">
         <Grid.RowDefinitions>
@@ -38,6 +39,7 @@
                             <DataTemplate DataType="viewModels:CheckBoxItem">
                                 <CheckBox IsChecked="{Binding Checked.Value}"
                                           Content="{Binding ChartName,Converter={StaticResource ChartNameDefaultBoxText}}"
+                                          Foreground="{Binding ChartName,Converter={StaticResource ChartNameToColor}}"
                                           Margin="10 3" />
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
