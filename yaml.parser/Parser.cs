@@ -13,7 +13,7 @@ namespace yaml.parser
         public IDictionary<Stage, IEnumerable<Resource>> Parse(string yaml, ChartMode chartMode)
         {
             var items = _reader.Read(yaml);
-            Predicate<Resource> pred = chartMode switch {
+            Predicate<Resource> matchesHookByChartMode = chartMode switch {
                     ChartMode.Install => r => r.IsInstallHook(),
                     ChartMode.Upgrade => r => r.IsUpgradeHook(),
                     ChartMode.Delete => r => r.IsDeleteHook(),
@@ -22,9 +22,9 @@ namespace yaml.parser
             };
 
             return new Dictionary<Stage, IEnumerable<Resource>> {
-                    {Stage.Pre, items.Where(r => r.IsPreHook() && pred(r)).OrderBy(r => (r.Weight, r.Name))},
-                    {Stage.Deploy, items.Where(r => r.HasNoHook()).OrderBy(r => r.ChartName)},
-                    {Stage.Post, items.Where(r => r.IsPostHook() && pred(r)).OrderBy(r => (r.Weight, r.Name))}
+                    {Stage.Pre, items.Where(r => r.IsPreHook() && matchesHookByChartMode(r)).OrderBy(r => (r.Weight, r.Name))},
+                    {Stage.Deploy, items.Where(r => r.HasNoHook()|| !matchesHookByChartMode(r)).OrderBy(r => r.ChartName)},
+                    {Stage.Post, items.Where(r => r.IsPostHook() && matchesHookByChartMode(r)).OrderBy(r => (r.Weight, r.Name))}
             };
         }
 
