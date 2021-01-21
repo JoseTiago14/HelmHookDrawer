@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Flow.Reactive.Services;
 using graph.drawer.Flow.Streams;
 using yaml.parser;
@@ -28,7 +24,7 @@ namespace graph.drawer.Flow.Nanos
                      try
                      {
                          var yaml = File.ReadAllText(payload.file.Path.FullName);
-                         var parsed = _parser.Parse(yaml, ChartMode.Install);
+                         var parsed = _parser.Parse(yaml, payload.config.SelectedMode);
                          result.Update(parsed);
                      } catch (Exception e) { result.Error(e); }
                  });

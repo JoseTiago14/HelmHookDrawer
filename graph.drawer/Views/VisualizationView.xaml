@@ -22,13 +22,9 @@
 
                 <StackPanel>
                     <Label Content="Mode" Foreground="Gray" />
-                    <ComboBox Height="20" Width="75" HorizontalAlignment="Left" Margin="10 3">
-                        <ComboBox.Items>
-                            <ComboBoxItem IsSelected="True">Install</ComboBoxItem>
-                            <ComboBoxItem>Upgrade</ComboBoxItem>
-                            <ComboBoxItem>Delete</ComboBoxItem>
-                        </ComboBox.Items>
-                    </ComboBox>
+                    <ComboBox Height="20" Width="75" HorizontalAlignment="Left" Margin="10 3"
+                              ItemsSource="{Binding Modes}"
+                              SelectedItem="{Binding SelectedMode.Value}" />
                 </StackPanel>
                 <StackPanel Margin="15 0">
                     <Label Content="Charts" Foreground="Gray" />

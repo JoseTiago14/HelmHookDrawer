@@ -9,6 +9,7 @@ using System.Windows;
 using Flow.Reactive;
 using Flow.Reactive.ReactiveProperty;
 using Flow.Rx.Extensions;
+using graph.drawer.Flow.Commands;
 using graph.drawer.Flow.Streams;
 using Reactive.Bindings;
 using yaml.parser;
@@ -27,7 +28,11 @@ namespace graph.drawer.ViewModels
         public ReactiveProperty<IEnumerable<ResourceViewModel>> PostInstalls { get; }
         public ReactiveProperty<IEnumerable<ResourceViewModel>> Installs { get; }
         public ReactiveProperty<IEnumerable<ResourceViewModel>> PreInstalls { get; }
+
         public ReactiveProperty<IEnumerable<CheckBoxItem>> Checkboxes { get; }
+
+        public ReactiveProperty<ChartMode> SelectedMode { get; }
+        public IEnumerable<ChartMode> Modes => Enum.GetValues<ChartMode>();
 
         public int Columns => 4;
 
@@ -77,6 +82,13 @@ namespace graph.drawer.ViewModels
             PreInstalls = bind_with_filters(result => result.PreInstalls, true);
             Installs = bind_with_filters(result => result.Installs, false);
             PostInstalls = bind_with_filters(result => result.PostInstalls, true);
+
+            SelectedMode = Observable.Return(Modes.First()).ToReactiveProperty();
+
+            SelectedMode.Select(mode => flow.Send(new UpdateModeCommand(mode)))
+                        .Concat()
+                        .Subscribe()
+                        .AddToDisposables(Disposables);
         }
 
         private CompositeDisposable Disposables { get; } = new CompositeDisposable();
