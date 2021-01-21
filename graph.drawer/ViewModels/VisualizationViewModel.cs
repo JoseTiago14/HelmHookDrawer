@@ -49,6 +49,7 @@ namespace graph.drawer.ViewModels
             Checkboxes = flow.Bind<IEnumerable<CheckBoxItem>, ParsedResult>(result => {
                                                                                 var results = result.All
                                                                                                     .Select(r => r.ChartName)
+                                                                                                    .OrderBy(name => name)
                                                                                                     .Distinct()
                                                                                                     .Select(chartName => new CheckBoxItem(chartName, flow))
                                                                                                     .ToList();
