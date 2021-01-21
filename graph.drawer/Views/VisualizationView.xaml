@@ -13,26 +13,48 @@
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
+        <Expander Grid.Row="0" Header="Settings">
+            <StackPanel Margin="0 10 10 10" Orientation="Horizontal" HorizontalAlignment="Left">
 
-        <StackPanel Grid.Row="0" Margin="0 10 10 10" Orientation="Horizontal"  HorizontalAlignment="Left">
-            <Label Content="Mode" Foreground="Gray" />
-            <ComboBox Height="20" Width="75">
-                <ComboBox.Items>
-                    <ComboBoxItem IsSelected="True">Install</ComboBoxItem>
-                    <ComboBoxItem>Upgrade</ComboBoxItem>
-                    <ComboBoxItem>Delete</ComboBoxItem>
-                </ComboBox.Items>
-            </ComboBox>
-        </StackPanel>
+                <StackPanel>
+                    <Label Content="Mode" Foreground="Gray" />
+                    <ComboBox Height="20" Width="75" HorizontalAlignment="Left" Margin="10 3">
+                        <ComboBox.Items>
+                            <ComboBoxItem IsSelected="True">Install</ComboBoxItem>
+                            <ComboBoxItem>Upgrade</ComboBoxItem>
+                            <ComboBoxItem>Delete</ComboBoxItem>
+                        </ComboBox.Items>
+                    </ComboBox>
+                </StackPanel>
+                <StackPanel>
+                    <Label Content="Charts" Foreground="Gray" />
+                    <ItemsControl ItemsSource="{Binding ChartNames.Value}">
+                        <ItemsControl.Template>
+                            <ControlTemplate>
+                                <StackPanel Orientation="Vertical" />
+                            </ControlTemplate>
+                        </ItemsControl.Template>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="True" Content="{Binding}" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+
+
+            </StackPanel>
+        </Expander>
 
         <ScrollViewer Grid.Row="1" HorizontalAlignment="Stretch"
-                                  VerticalAlignment="Stretch" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Hidden">
+                      VerticalAlignment="Stretch" VerticalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Hidden">
             <StackPanel>
                 <Expander Header="Pre">
                     <ItemsControl ItemsSource="{Binding PreInstalls.Value}">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <WrapPanel/>
+                                <WrapPanel />
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
@@ -46,7 +68,7 @@
                     <ItemsControl ItemsSource="{Binding Installs.Value}">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <WrapPanel/>
+                                <WrapPanel />
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
@@ -60,7 +82,7 @@
                     <ItemsControl ItemsSource="{Binding PostInstalls.Value}">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <WrapPanel/>
+                                <WrapPanel />
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>

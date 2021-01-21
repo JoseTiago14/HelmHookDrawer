@@ -8,7 +8,7 @@ using yaml.parser;
 
 namespace graph.drawer.Views.Render.Converters
 {
-
+    
     class KindTypeToColor : IValueConverter
     {
 

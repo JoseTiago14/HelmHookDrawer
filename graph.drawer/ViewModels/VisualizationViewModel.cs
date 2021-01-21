@@ -24,6 +24,7 @@ namespace graph.drawer.ViewModels
         public ReactiveProperty<IEnumerable<ResourceViewModel>> PostInstalls { get; set; }
         public ReactiveProperty<IEnumerable<ResourceViewModel>> Installs { get; set; }
         public ReactiveProperty<IEnumerable<ResourceViewModel>> PreInstalls { get; set; }
+        public ReactiveProperty<IEnumerable<string>> ChartNames { get; set; }
 
         public int Columns => 4;
 
@@ -40,7 +41,10 @@ namespace graph.drawer.ViewModels
             PreInstalls = flow.Bind<IEnumerable<ResourceViewModel>, ParsedResult>(result => result.PreInstalls.Select(r => new ResourceViewModel(r, result.PreInstalls.ToList(), Columns)), Disposables);
             Installs = flow.Bind<IEnumerable<ResourceViewModel>, ParsedResult>(result => result.Installs.Select(r => new ResourceViewModel(r, result.Installs.ToList(), Columns)), Disposables);
             PostInstalls = flow.Bind<IEnumerable<ResourceViewModel>, ParsedResult>(result => result.PostInstalls.Select(r => new ResourceViewModel(r, result.PostInstalls.ToList(), Columns)), Disposables);
+
+            ChartNames = flow.Bind<IEnumerable<string>, ParsedResult>(result => result.All.Select(r => r.ChartName).Distinct(),Disposables);
         }
+
 
         private CompositeDisposable Disposables { get; } = new CompositeDisposable();
 

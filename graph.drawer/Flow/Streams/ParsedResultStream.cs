@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Flow.Reactive.Streams.Persisted;
 using yaml.parser;
 
@@ -8,6 +9,7 @@ namespace graph.drawer.Flow.Streams
 
     class ParsedResultStream : PersistedStream<ParsedResult>
     {
+
         public override bool Public => true;
 
         public override ParsedResult InitialState => new ParsedResult();
@@ -23,6 +25,7 @@ namespace graph.drawer.Flow.Streams
         public IEnumerable<Resource> PostInstalls { get; private set; } = new Resource[0];
 
         public ParseState State { get; set; } = ParseState.NoFileSelected;
+        public IEnumerable<Resource> All => PreInstalls.Concat(Installs).Concat(PostInstalls);
 
         public void Error(Exception exception)
         {
