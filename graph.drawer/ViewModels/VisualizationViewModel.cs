@@ -32,7 +32,7 @@ namespace graph.drawer.ViewModels
         public ReactiveProperty<IEnumerable<CheckBoxItem>> Checkboxes { get; }
 
         public ReactiveProperty<ChartMode> SelectedMode { get; }
-        public IEnumerable<ChartMode> Modes => Enum.GetValues<ChartMode>();
+        public IEnumerable<ChartMode> Modes => Enum.GetValues(typeof(ChartMode)).Cast<ChartMode>();
 
         public int Columns => 4;
 

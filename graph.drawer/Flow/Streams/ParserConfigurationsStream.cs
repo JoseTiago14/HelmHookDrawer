@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Flow.Reactive.Streams.Persisted;
 using yaml.parser;
 
@@ -19,7 +20,7 @@ namespace graph.drawer.Flow.Streams
 
         public ChartMode SelectedMode { get; set; }
 
-        public IEnumerable<ChartMode> Modes => Enum.GetValues<ChartMode>();
+        public IEnumerable<ChartMode> Modes => Enum.GetValues(typeof(ChartMode)).Cast<ChartMode>();
 
         public ICollection<string> SelectedFilters { get; set; } = new List<string>();
 
