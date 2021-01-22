@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "console.runner": {
+      "commandName": "Project",
+      "commandLineArgs": "--mode Upgrade --path C:\\Users\\pereiraj\\Downloads\\newOutput.yaml"
+    }
+  }
+}

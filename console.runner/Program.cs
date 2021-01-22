@@ -4,6 +4,7 @@ using System.Linq;
 using Flow.Host;
 using Microsoft.Extensions.DependencyInjection;
 using yaml.parser;
+using Parser = yaml.parser.Parser;
 
 namespace console.runner
 {
@@ -11,24 +12,35 @@ namespace console.runner
     class Program
     {
 
-        static void Main(string[] args)
-        {
-            var yaml = File.ReadAllText(@"C:\Users\pereiraj\Downloads\output.yaml"); //TODO eventually pass as argument(NOTE replace with the json you want to parse)
-            var mode = ChartMode.Install;
+        static int Main(string[] args) =>
+            new Host().Run<Options>(args,(sp, opts) =>
+            {
+                var fileInfo = new FileInfo(opts.Path);
+                if (!fileInfo.Exists)
+                {
+                    Console.WriteLine($"Helm template file not found at {args[1]}");
+                    return 1;
+                }
 
-            new Host().Run(sp => {
-                Console.WriteLine("\n\nTree\n");
+                var yaml = File.ReadAllText(fileInfo.FullName);
+
                 var tree = sp.GetService<Parser>();
+                var treeItems = tree.Parse(yaml, opts.Mode);
 
-                var treeItems = tree.Parse(yaml, mode);
-
-                treeItems.Values
-                    .SelectMany(x => x)
-                    .ToList()
-                         .ForEach(item => Console.WriteLine($"Kind: {item.Kind} | ResourceName: {item.Name} | ChartName: {item.ChartName}" ));
+                treeItems[Stage.Pre].ToList().ForEach(item =>
+                    Console.WriteLine(
+                        $"[Pre {opts.Mode}]\tChart: {item.ChartName} | Kind: {item.Kind} | Resource: {item.Name} | Namespace: {item.Namespace} | Weight: {item.Weight}"));
+                treeItems[Stage.Pre].ToList().ForEach(item =>
+                    Console.WriteLine(
+                        $"[{opts.Mode}]\tChart: {item.ChartName} | Kind: {item.Kind} | Resource: {item.Name} | Namespace: {item.Namespace}"));
+                treeItems[Stage.Post].ToList().ForEach(item =>
+                    Console.WriteLine(
+                        $"[Post {opts.Mode}]\tChart: {item.ChartName} | Kind: {item.Kind} | Resource: {item.Name} | Namespace: {item.Namespace} | Weight: {item.Weight}"));
+                return 0;
+            }, (provider, errors, arg3) =>
+            {
+                Console.WriteLine($"Failed unexpectedly to parse helm template output:\n{string.Join("\n",errors.Select(e=>e.ToString()))}");
+                return -1;
             });
-        }
-
     }
-
 }
